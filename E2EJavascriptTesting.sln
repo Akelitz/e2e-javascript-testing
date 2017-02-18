@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1AFCAF43-0BA9-4EDE-8FF0-F8F7EA97D7D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{79CFA61F-387E-45FB-A015-7EAB3D5AFBF2}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "E2EJavascriptTesting.Web", "src\E2EJavascriptTesting.Web\E2EJavascriptTesting.Web.xproj", "{DC8E37CC-9119-45E9-9742-C9831D9E3D3F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC8E37CC-9119-45E9-9742-C9831D9E3D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC8E37CC-9119-45E9-9742-C9831D9E3D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC8E37CC-9119-45E9-9742-C9831D9E3D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC8E37CC-9119-45E9-9742-C9831D9E3D3F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DC8E37CC-9119-45E9-9742-C9831D9E3D3F} = {1AFCAF43-0BA9-4EDE-8FF0-F8F7EA97D7D1}
+	EndGlobalSection
+EndGlobal
