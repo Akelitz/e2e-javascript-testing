@@ -1,91 +1,62 @@
-﻿describe('from movies page', function () {
+﻿var Movies = require('../PageObjects/movies.js');
+var Movie = require('../PageObjects/movie.js');
+
+describe('from movies page', function () {
+
+    var from_movies_page = new Movies();
 
     beforeEach(function () {
-        browser.get('http://localhost:4886/');
-        browser.sleep(1000);
+        from_movies_page.open();
     });
 
     it('I can add a new movie', function () {
-        element(by.linkText('Add New')).click();
-        browser.sleep(1000);
-        element(by.id('Title')).clear().sendKeys('Il piccolo principe');
-        element(by.id('Year')).clear().sendKeys('2015');
-        element(by.buttonText('Save')).click();
-        browser.sleep(1000);
-        var moviesRows = element(by.id('Movies'))
-            .all(by.tagName('tr'))
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('Il piccolo principe'))
-            );
-        expect(moviesRows.isPresent()).toBeTruthy();
-        var movieRow = moviesRows.first();
-        expect(movieRow.all(by.tagName('td')).first().getText()).toEqual('Il piccolo principe');
+        expect(
+            from_movies_page.open()
+                .click_add_new()
+                .set_title_to('Il piccolo principe')
+                .set_year_to('2015')
+                .click_save()
+                .then_exists('Il piccolo principe')
+        ).toBeTruthy();
     });
 
     it('I can edit a movie', function () {
-        var moviesTable = element(by.id('Movies'));
-        var moviesRows = moviesTable.all(by.tagName('tr'));
-        var movieRow = moviesRows
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('Piovono gnocchi'))
-            ).first();
-        var detailsLink = movieRow.element(by.linkText('Edit')).click();
-        browser.sleep(1000);
-        element(by.id('Title')).clear().sendKeys('Piovono polpette');
-        element(by.buttonText('Save')).click();
-        browser.sleep(1000);
-        moviesRows = element(by.id('Movies'))
-            .all(by.tagName('tr'))
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('Piovono polpette'))
-            );
-        expect(moviesRows.isPresent()).toBeTruthy();
-        movieRow = moviesRows.first();
-        expect(movieRow.all(by.tagName('td')).first().getText()).toEqual('Piovono polpette');
+        expect(
+            from_movies_page
+                .click_edit_for('Piovono gnocchi')
+                .set_title_to('Piovono polpette')
+                .click_save()
+                .then_exists('Piovono polpette')
+        ).toBeTruthy();
     });
 
     it('I can delete a movie', function () {
-        var moviesTable = element(by.id('Movies'));
-        var moviesRows = moviesTable.all(by.tagName('tr'));
-        var movieRow = moviesRows
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('Il viaggio di Arlo'))
-            ).first();
-        var detailsLink = movieRow.element(by.linkText('Delete')).click();
-        browser.sleep(1000);
-        element(by.buttonText('Confirm')).click();
-        browser.sleep(1000);
-        moviesRows = element(by.id('Movies'))
-            .all(by.tagName('tr'))
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('Il viaggio di Arlo'))
-            );
-        expect(moviesRows.isPresent()).toBeFalsy();
+        expect(
+            from_movies_page
+                .click_delete_for('Il viaggio di Arlo')
+                .click_confirm()
+                .then_exists('Il viaggio di Arlo')
+        ).toBeFalsy();
     });
 
 });
 
 describe('from movie page', function () {
 
+    var from_movie_page = new Movie();
+
     beforeEach(function () {
-        browser.get('http://localhost:4886/Movies/Details/7');
-        browser.sleep(1000);
+        from_movie_page.open(7);
     });
 
     it('I can edit the movie', function () {
-        element(by.linkText('Edit')).click();
-        browser.sleep(1000);
-        element(by.id('Title')).clear().sendKeys('I Croods');
-        element(by.buttonText('Save')).click();
-        browser.sleep(1000);
-        var moviesRows = element(by.id('Movies'))
-            .all(by.tagName('tr'))
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('I Croods'))
-            );
-        expect(moviesRows.isPresent()).toBeTruthy();
-        var movieRow = moviesRows.first();
-        expect(movieRow.all(by.tagName('td')).first().getText()).toEqual('I Croods');
+        expect(
+            from_movie_page
+                .click_edit()
+                .set_title_to('I Croods')
+                .click_save()
+                .then_exists('I Croods')
+        ).toBeTruthy();
     });
 
 });

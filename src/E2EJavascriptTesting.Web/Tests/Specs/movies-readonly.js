@@ -1,97 +1,112 @@
-﻿describe('from movies page', function () {
+﻿var Movies = require('../PageObjects/movies.js');
+var Movie = require('../PageObjects/movie.js');
+var AddMovie = require('../PageObjects/add-movie.js');
+var EditMovie = require('../PageObjects/edit-movie.js');
+var DeleteMovie = require('../PageObjects/delete-movie.js');
+
+describe('from movies page', function () {
+
+    var from_movies_page = new Movies();
 
     beforeEach(function () {
-        browser.get('http://localhost:4886/');
-        browser.sleep(1000);
+        return from_movies_page.open();
     });
 
     it('I can filter the list of movies by year', function () {
-        var yearLink = element(by.id('Years')).element(by.linkText('2008'));
-        yearLink.click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Movies of 2008');
+        expect(
+            from_movies_page
+                .filter_by_year('2008')
+                .then_is_movies_page_of_year('2008')
+        ).toBeTruthy();
     });
 
     it('I can remove the filter to see the full list of movies', function () {
-        var yearLink = element(by.id('Years')).element(by.linkText('2008'));
-        yearLink.click();
-        browser.sleep(1000);
-        var allLink = element(by.id('Years')).element(by.linkText('All'));
-        allLink.click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Movies');
+        expect(
+            from_movies_page
+                .filter_by_year('2008')
+                .remove_filter()
+                .then_is_movies_page()
+        ).toBeTruthy();
     });
 
     it('I can see the details of a movie', function () {
-        var moviesTable = element(by.id('Movies'));
-        var moviesRows = moviesTable.all(by.tagName('tr'));
-        var movieRow = moviesRows
-            .filter((e, index) => e.getText()
-                .then(text => text.startsWith('Ratatouille'))
-            ).first();
-        var detailsLink = movieRow.element(by.linkText('Details')).click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Ratatouille');
+        expect(
+            from_movies_page
+                .click_details_for('Ratatouille')
+                .then_is_movie_page_of('Ratatouille')
+        ).toBeTruthy();
     });
 
 });
 
 describe('from movie page', function () {
 
+    var from_movie_page = new Movie();
+
     beforeEach(function () {
-        browser.get('http://localhost:4886/Movies/Details/1');
-        browser.sleep(1000);
+        from_movie_page.open(1);
     });
 
     it('I can go back to the full list of movies', function () {
-        element(by.linkText('Back to List')).click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Movies');
+        expect(
+            from_movie_page
+                .go_back_to_list()
+                .then_is_movies_page()
+        ).toBeTruthy();
     });
 
 });
 
 describe('from add movie page', function () {
 
+    var from_add_movie_page = new AddMovie();
+
     beforeEach(function () {
-        browser.get('http://localhost:4886/Movies/Add');
-        browser.sleep(1000);
+        from_add_movie_page.open(1);
     });
 
     it('I can abort and go back to the full list of movies', function () {
-        element(by.linkText('Back to List')).click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Movies');
+        expect(
+           from_add_movie_page
+               .go_back_to_list()
+               .then_is_movies_page()
+       ).toBeTruthy();
     });
 
 });
 
 describe('from edit movie page', function () {
 
+    var from_edit_movie_page = new EditMovie();
+
     beforeEach(function () {
-        browser.get('http://localhost:4886/Movies/Edit/1');
-        browser.sleep(1000);
+        from_edit_movie_page.open(1);
     });
 
     it('I can abort and go back to the full list of movies', function () {
-        element(by.linkText('Back to List')).click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Movies');
+        expect(
+           from_edit_movie_page
+               .go_back_to_list()
+               .then_is_movies_page()
+       ).toBeTruthy();
     });
 
 });
 
 describe('from delete movie page', function () {
 
+    var from_delete_movie_page = new DeleteMovie();
+
     beforeEach(function () {
-        browser.get('http://localhost:4886/Movies/Delete/1');
-        browser.sleep(1000);
+        from_delete_movie_page.open(1);
     });
 
     it('I can abort and go back to the full list of movies', function () {
-        element(by.linkText('Back to List')).click();
-        browser.sleep(1000);
-        expect(element(by.tagName('h2')).getText()).toEqual('Movies');
+        expect(
+            from_delete_movie_page
+                .go_back_to_list()
+                .then_is_movies_page()
+        ).toBeTruthy();
     });
 
 });
